@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Pulse</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Project Pulse</h1>
+    <p>Track project status, ownership, priorities, and the latest contributor activity in one lightweight dashboard.</p>
+  </header>
+
+  <main>
+    <section class="dashboard" aria-live="polite" aria-label="Project dashboard"></section>
+  </main>
+
+  <script>
+    const dashboard = document.querySelector(".dashboard");
+
+    function toLabel(value) {
+      return String(value)
+        .split("-")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+    }
+
+    function toSlug(value) {
+      return String(value).toLowerCase().replace(/\s+/g, "-");
+    }
+
+    function createBadge(type, value) {
+      const badge = document.createElement("span");
+      const slug = toSlug(value);
+      badge.classList.add("badge", `${type}-badge`, `${type}-${slug}`);
+
+      if (type === "priority") {
+        badge.textContent = `Priority: ${toLabel(value)}`;
+      } else {
+        badge.textContent = toLabel(value);
+      }
+
+      return badge;
+    }
+
+    function createProjectCard(project) {
+      const card = document.createElement("article");
+      card.classList.add("project-card");
+
+      const name = document.createElement("h2");
+      name.classList.add("project-name");
+      name.textContent = project.name;
+      card.appendChild(name);
+
+      const owner = document.createElement("div");
+      owner.classList.add("project-owner");
+      owner.textContent = `Owner: ${project.owner}`;
+      card.appendChild(owner);
+
+      if (project.summary) {
+        const summary = document.createElement("p");
+        summary.classList.add("project-summary");
+        summary.textContent = project.summary;
+        card.appendChild(summary);
+      }
+
+      const meta = document.createElement("div");
+      meta.classList.add("project-meta");
+      meta.appendChild(createBadge("status", project.status));
+      meta.appendChild(createBadge("priority", project.priority));
+      card.appendChild(meta);
+
+      const activity = document.createElement("div");
+      activity.classList.add("project-activity");
+
+      const activityLabel = document.createElement("span");
+      activityLabel.classList.add("activity-label");
+      activityLabel.textContent = "Recent activity";
+      activity.appendChild(activityLabel);
+      activity.appendChild(document.createTextNode(`: ${project.recentActivity}`));
+      card.appendChild(activity);
+
+      return card;
+    }
+
+    function renderProjects(projects) {
+      dashboard.replaceChildren();
+
+      projects.forEach((project) => {
+        dashboard.appendChild(createProjectCard(project));
+      });
+    }
+
+    function renderError(message) {
+      dashboard.replaceChildren();
+
+      const error = document.createElement("p");
+      error.classList.add("dashboard-error");
+      error.setAttribute("role", "alert");
+      error.textContent = message;
+      dashboard.appendChild(error);
+    }
+
+    fetch("project-data.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Project data request failed with status ${response.status}`);
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        if (!data || !Array.isArray(data.projects)) {
+          throw new Error("Project data is missing a projects array.");
+        }
+
+        renderProjects(data.projects);
+      })
+      .catch((error) => {
+        console.error("Unable to load Project Pulse data:", error);
+        renderError("Project data could not be loaded. Please refresh the page or try again later.");
+      });
+  </script>
+</body>
+</html>

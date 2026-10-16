@@ -1,0 +1,52 @@
+{
+  "projects": [
+    {
+      "name": "Atlas API Modernization",
+      "owner": "Platform Engineering",
+      "status": "active",
+      "recentActivity": "Merged PR #214: refactor authentication flow",
+      "priority": "high",
+      "summary": "Upgrades core API services to improve reliability and simplify contributor onboarding."
+    },
+    {
+      "name": "Beacon Mobile Refresh",
+      "owner": "Maya Chen",
+      "status": "at-risk",
+      "recentActivity": "Design review flagged unresolved offline sync edge cases",
+      "priority": "high",
+      "summary": "Refreshes the mobile experience with a faster dashboard and clearer account workflows."
+    },
+    {
+      "name": "Cedar Billing Portal",
+      "owner": "Revenue Systems Team",
+      "status": "blocked",
+      "recentActivity": "Waiting on payment gateway sandbox credentials",
+      "priority": "medium",
+      "summary": "Adds a self-service billing portal for plan changes, invoices, and payment updates."
+    },
+    {
+      "name": "Drift Documentation Hub",
+      "owner": "Developer Experience",
+      "status": "on-hold",
+      "recentActivity": "Paused migration until information architecture is approved",
+      "priority": "low",
+      "summary": "Consolidates setup guides, architecture notes, and troubleshooting content into one hub."
+    },
+    {
+      "name": "Ember Observability Rollout",
+      "owner": "SRE Guild",
+      "status": "completed",
+      "recentActivity": "Published final rollout notes and dashboard links",
+      "priority": "medium",
+      "summary": "Standardizes service metrics, traces, and alert routing across production workloads."
+    },
+    {
+      "name": "Fjord Accessibility Sprint",
+      "owner": "A11y Working Group",
+      "status": "active",
+      "recentActivity": "Closed issue #87: keyboard focus order on settings page",
+      "priority": "low",
+      "summary": "Improves keyboard navigation, semantic markup, and screen reader support in key flows."
+    }
+  ]
+}
